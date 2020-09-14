@@ -1,0 +1,38 @@
+version: "3.8"
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+services:
+  grafana:
+    image: grafana/grafana:6.5.0
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=pttp
+      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - AWS_SDK_LOAD_CONFIG=1
+    restart: unless-stopped
+  snmp-exporter:
+    image: prom/snmp-exporter
+    ports:
+      - 9116:9116
+    volumes:
+      - ./snmp_exporter/:/etc/snmp_exporter/
+  prometheus:
+    image: prom/prometheus:v2.20.1
+    volumes:
+      - ./prometheus:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+  metricssimulator:
+    build: ./
+    ports:
+    - 8080:8080

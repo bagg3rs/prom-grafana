@@ -1,0 +1,2353 @@
+default:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    help: Indicates whether linkUp/linkDown traps should be generated for this interface
+      - 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
+      per second - 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    help: This object has a value of false(2) if this interface only accepts packets/frames
+      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    help: This object has the value 'true(1)' if the interface sublayer has a physical
+      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    help: This object is an 'alias' name for the interface as specified by a network
+      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifDescr
+      type: gauge
+    lookups:
+    - labels:
+      - ifDescr
+      labelname: ifDescr
+      oid: 1.3.6.1.2.1.2.2.1.2
+      type: DisplayString
+default_ifindex:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    help: Indicates whether linkUp/linkDown traps should be generated for this interface
+      - 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
+      per second - 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    help: This object has a value of false(2) if this interface only accepts packets/frames
+      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    help: This object has the value 'true(1)' if the interface sublayer has a physical
+      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    help: This object is an 'alias' name for the interface as specified by a network
+      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+default_ifname:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.31.1.1
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifName
+    oid: 1.3.6.1.2.1.31.1.1.1.1
+    type: DisplayString
+    help: The textual name of the interface - 1.3.6.1.2.1.31.1.1.1.1
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.2
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.2
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.3
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.3
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.4
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.4
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.5
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.5
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.6
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.6
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.7
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.31.1.1.1.7
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.8
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.8
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCInBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.9
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a broadcast address at this sub-layer - 1.3.6.1.2.1.31.1.1.1.9
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutOctets
+    oid: 1.3.6.1.2.1.31.1.1.1.10
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.31.1.1.1.10
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutUcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.11
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.11
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutMulticastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.12
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.12
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHCOutBroadcastPkts
+    oid: 1.3.6.1.2.1.31.1.1.1.13
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a broadcast address at this sub-layer, including
+      those that were discarded or not sent - 1.3.6.1.2.1.31.1.1.1.13
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifLinkUpDownTrapEnable
+    oid: 1.3.6.1.2.1.31.1.1.1.14
+    type: gauge
+    help: Indicates whether linkUp/linkDown traps should be generated for this interface
+      - 1.3.6.1.2.1.31.1.1.1.14
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifHighSpeed
+    oid: 1.3.6.1.2.1.31.1.1.1.15
+    type: gauge
+    help: An estimate of the interface's current bandwidth in units of 1,000,000 bits
+      per second - 1.3.6.1.2.1.31.1.1.1.15
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifPromiscuousMode
+    oid: 1.3.6.1.2.1.31.1.1.1.16
+    type: gauge
+    help: This object has a value of false(2) if this interface only accepts packets/frames
+      that are addressed to this station - 1.3.6.1.2.1.31.1.1.1.16
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifConnectorPresent
+    oid: 1.3.6.1.2.1.31.1.1.1.17
+    type: gauge
+    help: This object has the value 'true(1)' if the interface sublayer has a physical
+      connector and the value 'false(2)' otherwise. - 1.3.6.1.2.1.31.1.1.1.17
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifAlias
+    oid: 1.3.6.1.2.1.31.1.1.1.18
+    type: DisplayString
+    help: This object is an 'alias' name for the interface as specified by a network
+      manager, and provides a non-volatile 'handle' for the interface - 1.3.6.1.2.1.31.1.1.1.18
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+  - name: ifCounterDiscontinuityTime
+    oid: 1.3.6.1.2.1.31.1.1.1.19
+    type: gauge
+    help: The value of sysUpTime on the most recent occasion at which any one or more
+      of this interface's counters suffered a discontinuity - 1.3.6.1.2.1.31.1.1.1.19
+    indexes:
+    - labelname: ifName
+      type: gauge
+    lookups:
+    - labels:
+      - ifName
+      labelname: ifName
+      oid: 1.3.6.1.2.1.31.1.1.1.1
+      type: DisplayString
+paloalto_fw:
+  walk:
+  - 1.3.6.1.2.1.2
+  - 1.3.6.1.2.1.25.1
+  - 1.3.6.1.2.1.25.2
+  - 1.3.6.1.2.1.25.3
+  - 1.3.6.1.4.1.25461.2.1.2.1
+  - 1.3.6.1.4.1.25461.2.1.2.3
+  - 1.3.6.1.4.1.25461.2.1.2.5
+  get:
+  - 1.3.6.1.2.1.1.3.0
+  metrics:
+  - name: sysUpTime
+    oid: 1.3.6.1.2.1.1.3
+    type: gauge
+    help: The time (in hundredths of a second) since the network management portion
+      of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+  - name: ifNumber
+    oid: 1.3.6.1.2.1.2.1
+    type: gauge
+    help: The number of network interfaces (regardless of their current state) present
+      on this system. - 1.3.6.1.2.1.2.1
+  - name: ifIndex
+    oid: 1.3.6.1.2.1.2.2.1.1
+    type: gauge
+    help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifDescr
+    oid: 1.3.6.1.2.1.2.2.1.2
+    type: DisplayString
+    help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifType
+    oid: 1.3.6.1.2.1.2.2.1.3
+    type: gauge
+    help: The type of interface - 1.3.6.1.2.1.2.2.1.3
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifMtu
+    oid: 1.3.6.1.2.1.2.2.1.4
+    type: gauge
+    help: The size of the largest packet which can be sent/received on the interface,
+      specified in octets - 1.3.6.1.2.1.2.2.1.4
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifSpeed
+    oid: 1.3.6.1.2.1.2.2.1.5
+    type: gauge
+    help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifPhysAddress
+    oid: 1.3.6.1.2.1.2.2.1.6
+    type: PhysAddress48
+    help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifAdminStatus
+    oid: 1.3.6.1.2.1.2.2.1.7
+    type: gauge
+    help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOperStatus
+    oid: 1.3.6.1.2.1.2.2.1.8
+    type: gauge
+    help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifLastChange
+    oid: 1.3.6.1.2.1.2.2.1.9
+    type: gauge
+    help: The value of sysUpTime at the time the interface entered its current operational
+      state - 1.3.6.1.2.1.2.2.1.9
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInOctets
+    oid: 1.3.6.1.2.1.2.2.1.10
+    type: counter
+    help: The total number of octets received on the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.10
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.11
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were not addressed to a multicast or broadcast address at this sub-layer
+      - 1.3.6.1.2.1.2.2.1.11
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.12
+    type: counter
+    help: The number of packets, delivered by this sub-layer to a higher (sub-)layer,
+      which were addressed to a multicast or broadcast address at this sub-layer -
+      1.3.6.1.2.1.2.2.1.12
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInDiscards
+    oid: 1.3.6.1.2.1.2.2.1.13
+    type: counter
+    help: The number of inbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being deliverable to a higher-layer
+      protocol - 1.3.6.1.2.1.2.2.1.13
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInErrors
+    oid: 1.3.6.1.2.1.2.2.1.14
+    type: counter
+    help: For packet-oriented interfaces, the number of inbound packets that contained
+      errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifInUnknownProtos
+    oid: 1.3.6.1.2.1.2.2.1.15
+    type: counter
+    help: For packet-oriented interfaces, the number of packets received via the interface
+      which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutOctets
+    oid: 1.3.6.1.2.1.2.2.1.16
+    type: counter
+    help: The total number of octets transmitted out of the interface, including framing
+      characters - 1.3.6.1.2.1.2.2.1.16
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.17
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were not addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutNUcastPkts
+    oid: 1.3.6.1.2.1.2.2.1.18
+    type: counter
+    help: The total number of packets that higher-level protocols requested be transmitted,
+      and which were addressed to a multicast or broadcast address at this sub-layer,
+      including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutDiscards
+    oid: 1.3.6.1.2.1.2.2.1.19
+    type: counter
+    help: The number of outbound packets which were chosen to be discarded even though
+      no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutErrors
+    oid: 1.3.6.1.2.1.2.2.1.20
+    type: counter
+    help: For packet-oriented interfaces, the number of outbound packets that could
+      not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: ifOutQLen
+    oid: 1.3.6.1.2.1.2.2.1.21
+    type: gauge
+    help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
+    indexes:
+    - labelname: ifIndex
+      type: gauge
+  - name: hrSystemUptime
+    oid: 1.3.6.1.2.1.25.1.1
+    type: gauge
+    help: The amount of time since this host was last initialized - 1.3.6.1.2.1.25.1.1
+  - name: hrSystemDate
+    oid: 1.3.6.1.2.1.25.1.2
+    type: DateAndTime
+    help: The host's notion of the local date and time of day. - 1.3.6.1.2.1.25.1.2
+  - name: hrSystemInitialLoadDevice
+    oid: 1.3.6.1.2.1.25.1.3
+    type: gauge
+    help: The index of the hrDeviceEntry for the device from which this host is configured
+      to load its initial operating system configuration (i.e., which operating system
+      code and/or boot parameters) - 1.3.6.1.2.1.25.1.3
+  - name: hrSystemInitialLoadParameters
+    oid: 1.3.6.1.2.1.25.1.4
+    type: OctetString
+    help: This object contains the parameters (e.g - 1.3.6.1.2.1.25.1.4
+  - name: hrSystemNumUsers
+    oid: 1.3.6.1.2.1.25.1.5
+    type: gauge
+    help: The number of user sessions for which this host is storing state information
+      - 1.3.6.1.2.1.25.1.5
+  - name: hrSystemProcesses
+    oid: 1.3.6.1.2.1.25.1.6
+    type: gauge
+    help: The number of process contexts currently loaded or running on this system.
+      - 1.3.6.1.2.1.25.1.6
+  - name: hrSystemMaxProcesses
+    oid: 1.3.6.1.2.1.25.1.7
+    type: gauge
+    help: The maximum number of process contexts this system can support - 1.3.6.1.2.1.25.1.7
+  - name: hrMemorySize
+    oid: 1.3.6.1.2.1.25.2.2
+    type: gauge
+    help: The amount of physical read-write main memory, typically RAM, contained
+      by the host. - 1.3.6.1.2.1.25.2.2
+  - name: hrStorageIndex
+    oid: 1.3.6.1.2.1.25.2.3.1.1
+    type: gauge
+    help: A unique value for each logical storage area contained by the host. - 1.3.6.1.2.1.25.2.3.1.1
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageDescr
+    oid: 1.3.6.1.2.1.25.2.3.1.3
+    type: DisplayString
+    help: A description of the type and instance of the storage described by this
+      entry. - 1.3.6.1.2.1.25.2.3.1.3
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageAllocationUnits
+    oid: 1.3.6.1.2.1.25.2.3.1.4
+    type: gauge
+    help: The size, in bytes, of the data objects allocated from this pool - 1.3.6.1.2.1.25.2.3.1.4
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageSize
+    oid: 1.3.6.1.2.1.25.2.3.1.5
+    type: gauge
+    help: The size of the storage represented by this entry, in units of hrStorageAllocationUnits
+      - 1.3.6.1.2.1.25.2.3.1.5
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageUsed
+    oid: 1.3.6.1.2.1.25.2.3.1.6
+    type: gauge
+    help: The amount of the storage represented by this entry that is allocated, in
+      units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrStorageAllocationFailures
+    oid: 1.3.6.1.2.1.25.2.3.1.7
+    type: counter
+    help: The number of requests for storage represented by this entry that could
+      not be honored due to not enough storage - 1.3.6.1.2.1.25.2.3.1.7
+    indexes:
+    - labelname: hrStorageIndex
+      type: gauge
+  - name: hrDeviceIndex
+    oid: 1.3.6.1.2.1.25.3.2.1.1
+    type: gauge
+    help: A unique value for each device contained by the host - 1.3.6.1.2.1.25.3.2.1.1
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDeviceDescr
+    oid: 1.3.6.1.2.1.25.3.2.1.3
+    type: DisplayString
+    help: A textual description of this device, including the device's manufacturer
+      and revision, and optionally, its serial number. - 1.3.6.1.2.1.25.3.2.1.3
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDeviceStatus
+    oid: 1.3.6.1.2.1.25.3.2.1.5
+    type: gauge
+    help: The current operational state of the device described by this row of the
+      table - 1.3.6.1.2.1.25.3.2.1.5
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDeviceErrors
+    oid: 1.3.6.1.2.1.25.3.2.1.6
+    type: counter
+    help: The number of errors detected on this device - 1.3.6.1.2.1.25.3.2.1.6
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrProcessorLoad
+    oid: 1.3.6.1.2.1.25.3.3.1.2
+    type: gauge
+    help: The average, over the last minute, of the percentage of time that this processor
+      was not idle - 1.3.6.1.2.1.25.3.3.1.2
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrNetworkIfIndex
+    oid: 1.3.6.1.2.1.25.3.4.1.1
+    type: gauge
+    help: The value of ifIndex which corresponds to this network device - 1.3.6.1.2.1.25.3.4.1.1
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrPrinterStatus
+    oid: 1.3.6.1.2.1.25.3.5.1.1
+    type: gauge
+    help: The current status of this printer device. - 1.3.6.1.2.1.25.3.5.1.1
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrPrinterDetectedErrorState
+    oid: 1.3.6.1.2.1.25.3.5.1.2
+    type: OctetString
+    help: This object represents any error conditions detected by the printer - 1.3.6.1.2.1.25.3.5.1.2
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDiskStorageAccess
+    oid: 1.3.6.1.2.1.25.3.6.1.1
+    type: gauge
+    help: An indication if this long-term storage device is readable and writable
+      or only readable - 1.3.6.1.2.1.25.3.6.1.1
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDiskStorageMedia
+    oid: 1.3.6.1.2.1.25.3.6.1.2
+    type: gauge
+    help: An indication of the type of media used in this long- term storage device.
+      - 1.3.6.1.2.1.25.3.6.1.2
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDiskStorageRemoveble
+    oid: 1.3.6.1.2.1.25.3.6.1.3
+    type: gauge
+    help: Denotes whether or not the disk media may be removed from the drive. - 1.3.6.1.2.1.25.3.6.1.3
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrDiskStorageCapacity
+    oid: 1.3.6.1.2.1.25.3.6.1.4
+    type: gauge
+    help: The total size for this long-term storage device - 1.3.6.1.2.1.25.3.6.1.4
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+  - name: hrPartitionIndex
+    oid: 1.3.6.1.2.1.25.3.7.1.1
+    type: gauge
+    help: A unique value for each partition on this long-term storage device - 1.3.6.1.2.1.25.3.7.1.1
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: hrPartitionIndex
+      type: gauge
+  - name: hrPartitionLabel
+    oid: 1.3.6.1.2.1.25.3.7.1.2
+    type: OctetString
+    help: A textual description of this partition. - 1.3.6.1.2.1.25.3.7.1.2
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: hrPartitionIndex
+      type: gauge
+  - name: hrPartitionID
+    oid: 1.3.6.1.2.1.25.3.7.1.3
+    type: OctetString
+    help: A descriptor which uniquely represents this partition to the responsible
+      operating system - 1.3.6.1.2.1.25.3.7.1.3
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: hrPartitionIndex
+      type: gauge
+  - name: hrPartitionSize
+    oid: 1.3.6.1.2.1.25.3.7.1.4
+    type: gauge
+    help: The size of this partition. - 1.3.6.1.2.1.25.3.7.1.4
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: hrPartitionIndex
+      type: gauge
+  - name: hrPartitionFSIndex
+    oid: 1.3.6.1.2.1.25.3.7.1.5
+    type: gauge
+    help: The index of the file system mounted on this partition - 1.3.6.1.2.1.25.3.7.1.5
+    indexes:
+    - labelname: hrDeviceIndex
+      type: gauge
+    - labelname: hrPartitionIndex
+      type: gauge
+  - name: hrFSIndex
+    oid: 1.3.6.1.2.1.25.3.8.1.1
+    type: gauge
+    help: A unique value for each file system local to this host - 1.3.6.1.2.1.25.3.8.1.1
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSMountPoint
+    oid: 1.3.6.1.2.1.25.3.8.1.2
+    type: OctetString
+    help: The path name of the root of this file system. - 1.3.6.1.2.1.25.3.8.1.2
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSRemoteMountPoint
+    oid: 1.3.6.1.2.1.25.3.8.1.3
+    type: OctetString
+    help: A description of the name and/or address of the server that this file system
+      is mounted from - 1.3.6.1.2.1.25.3.8.1.3
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSAccess
+    oid: 1.3.6.1.2.1.25.3.8.1.5
+    type: gauge
+    help: An indication if this file system is logically configured by the operating
+      system to be readable and writable or only readable - 1.3.6.1.2.1.25.3.8.1.5
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSBootable
+    oid: 1.3.6.1.2.1.25.3.8.1.6
+    type: gauge
+    help: A flag indicating whether this file system is bootable. - 1.3.6.1.2.1.25.3.8.1.6
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSStorageIndex
+    oid: 1.3.6.1.2.1.25.3.8.1.7
+    type: gauge
+    help: The index of the hrStorageEntry that represents information about this file
+      system - 1.3.6.1.2.1.25.3.8.1.7
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSLastFullBackupDate
+    oid: 1.3.6.1.2.1.25.3.8.1.8
+    type: DateAndTime
+    help: The last date at which this complete file system was copied to another storage
+      device for backup - 1.3.6.1.2.1.25.3.8.1.8
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: hrFSLastPartialBackupDate
+    oid: 1.3.6.1.2.1.25.3.8.1.9
+    type: DateAndTime
+    help: The last date at which a portion of this file system was copied to another
+      storage device for backup - 1.3.6.1.2.1.25.3.8.1.9
+    indexes:
+    - labelname: hrFSIndex
+      type: gauge
+  - name: panAhoSw
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.1
+    type: counter
+    help: The total usage of software for AHO - 1.3.6.1.4.1.25461.2.1.2.1.19.1
+  - name: panDfaSw
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.2
+    type: counter
+    help: The total number of dfa match using software - 1.3.6.1.4.1.25461.2.1.2.1.19.2
+  - name: panFlowHostServiceAllow
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.3
+    type: counter
+    help: Device management session allowed - 1.3.6.1.4.1.25461.2.1.2.1.19.3
+  - name: panHaPathmonSent
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.4
+    type: counter
+    help: HA path-monitoring packets sent - 1.3.6.1.4.1.25461.2.1.2.1.19.4
+  - name: panAhoFpga
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.5
+    type: counter
+    help: The total requests to FPGA for AHO - 1.3.6.1.4.1.25461.2.1.2.1.19.5
+  - name: panDfaFpga
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.6
+    type: counter
+    help: The total requests to FPGA for DFA - 1.3.6.1.4.1.25461.2.1.2.1.19.6
+  - name: panFpgaPkt
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.7
+    type: counter
+    help: The packets held because of requests to FPGA - 1.3.6.1.4.1.25461.2.1.2.1.19.7
+  - name: panFlowDosAgMaxSessLimit
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.1
+    type: counter
+    help: Session limit reached for aggregate profile, drop session - 1.3.6.1.4.1.25461.2.1.2.1.19.8.1
+  - name: panFlowDosBlkNumEntries
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.2
+    type: counter
+    help: Number of entries in DOS block table - 1.3.6.1.4.1.25461.2.1.2.1.19.8.2
+  - name: panFlowDosClMaxSessLimit
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.3
+    type: counter
+    help: Session limit reached for classified profile, drop session - 1.3.6.1.4.1.25461.2.1.2.1.19.8.3
+  - name: panFlowDosClSyncookieAckErr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.4
+    type: counter
+    help: 'TCP SYN cookies: Invalid ACKs received, classified profile - 1.3.6.1.4.1.25461.2.1.2.1.19.8.4'
+  - name: panFlowDosClSyncookieAckRcv
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.5
+    type: counter
+    help: 'TCP SYN cookies: ACKs to cookies received, classified profile - 1.3.6.1.4.1.25461.2.1.2.1.19.8.5'
+  - name: panFlowDosClSyncookieBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.6
+    type: counter
+    help: 'Packets dropped: Flagged for blocking and under block duration for cl -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.6'
+  - name: panFlowDosClSyncookieMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.7
+    type: counter
+    help: 'Packet dropped: SYN cookies maximum threshold reached, classified pro -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.7'
+  - name: panFlowDosClSyncookieSent
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.8
+    type: counter
+    help: 'TCP SYN cookies: cookies sent, classified profile - 1.3.6.1.4.1.25461.2.1.2.1.19.8.8'
+  - name: panFlowMeterVsysThrottle
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.9
+    type: counter
+    help: 'Session metering: sessions throttled by vsys configuration - 1.3.6.1.4.1.25461.2.1.2.1.19.8.9'
+  - name: panFlowPolicyDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.10
+    type: counter
+    help: 'Session setup: denied by policy - 1.3.6.1.4.1.25461.2.1.2.1.19.8.10'
+  - name: panFlowPolicyNat
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.11
+    type: counter
+    help: 'Session setup: source NAT IP/port allocation error - 1.3.6.1.4.1.25461.2.1.2.1.19.8.11'
+  - name: panFlowScanDrop
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.12
+    type: counter
+    help: 'Session setup: denied by scan detection - 1.3.6.1.4.1.25461.2.1.2.1.19.8.12'
+  - name: panFlowDosDropIpBlocked
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.13
+    type: counter
+    help: 'Packets dropped: Flagged for blocking and under block duration by oth -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.13'
+  - name: panFlowDosRedIcmp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.14
+    type: counter
+    help: 'Packets dropped: Zone protection protocol ''icmp'' RED - 1.3.6.1.4.1.25461.2.1.2.1.19.8.14'
+  - name: panFlowDosRedIcmp6
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.15
+    type: counter
+    help: 'Packets dropped: Zone protection protocol ''icmpv6'' RED - 1.3.6.1.4.1.25461.2.1.2.1.19.8.15'
+  - name: panFlowDosRedIp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.16
+    type: counter
+    help: 'Packets dropped: Zone protection protocol ''other-ip'' RED - 1.3.6.1.4.1.25461.2.1.2.1.19.8.16'
+  - name: panFlowDosRedTcp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.17
+    type: counter
+    help: 'Packets dropped: Zone protection protocol ''tcp-syn'' RED - 1.3.6.1.4.1.25461.2.1.2.1.19.8.17'
+  - name: panFlowDosRedUdp
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.18
+    type: counter
+    help: 'Packets dropped: Zone protection protocol ''udp'' RED - 1.3.6.1.4.1.25461.2.1.2.1.19.8.18'
+  - name: panFlowDosRuleAgBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.19
+    type: counter
+    help: 'Packets dropped: Flagged for blocking and under block duration for ag -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.19'
+  - name: panFlowDosRuleAgRedAct
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.20
+    type: counter
+    help: 'Packets dropped: Activate aggregate RED threshold reached, random ear -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.20'
+  - name: panFlowDosRuleAgRedMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.21
+    type: counter
+    help: 'Packets dropped: Maximal aggregate RED threshold reached - 1.3.6.1.4.1.25461.2.1.2.1.19.8.21'
+  - name: panFlowDosRuleDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.22
+    type: counter
+    help: 'Packets dropped: Denied action by DoS policy - 1.3.6.1.4.1.25461.2.1.2.1.19.8.22'
+  - name: panFlowDosRuleDrop
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.23
+    type: counter
+    help: 'Packets dropped: Rate limited or IP blocked - 1.3.6.1.4.1.25461.2.1.2.1.19.8.23'
+  - name: panFlowDosRuleDropAggr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.24
+    type: counter
+    help: 'Packets dropped: due to aggregate rate limiting - 1.3.6.1.4.1.25461.2.1.2.1.19.8.24'
+  - name: panFlowDosRuleDropClBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.25
+    type: counter
+    help: 'Packets dropped: Flagged for blocking and under block duration for cl -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.25'
+  - name: panFlowDosRuleDropClRedAct
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.26
+    type: counter
+    help: 'Packets dropped: Activate classified RED threshold reached, random ea -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.26'
+  - name: panFlowDosRuleDropClRedMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.27
+    type: counter
+    help: 'Packets dropped: Maximal classified RED threshold reached - 1.3.6.1.4.1.25461.2.1.2.1.19.8.27'
+  - name: panFlowDosRuleDropClassified
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.28
+    type: counter
+    help: 'Packets dropped: due to classified rate limiting - 1.3.6.1.4.1.25461.2.1.2.1.19.8.28'
+  - name: panFlowDosSyncookieBlkDur
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.29
+    type: counter
+    help: 'Packets dropped: Flagged for blocking and under block duration for ag -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.29'
+  - name: panFlowDosSyncookieMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.30
+    type: counter
+    help: 'Packet dropped: SYN cookies maximum threshold reached, aggregate prof -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.30'
+  - name: panFlowDosZoneRedAct
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.31
+    type: counter
+    help: 'Packets dropped: Activate zone RED threshold reached, random early dr -
+      1.3.6.1.4.1.25461.2.1.2.1.19.8.31'
+  - name: panFlowDosZoneRedMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.8.32
+    type: counter
+    help: 'Packets dropped: Maximal zone RED threshold reached - 1.3.6.1.4.1.25461.2.1.2.1.19.8.32'
+  - name: panFlowFwdL3TtlZero
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.1
+    type: counter
+    help: 'Packets dropped: IP TTL reaches zero - 1.3.6.1.4.1.25461.2.1.2.1.19.9.1'
+  - name: panFlowMeterHostThrottle
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.2
+    type: counter
+    help: 'Session metering: sessions throttled by management session threshold -
+      1.3.6.1.4.1.25461.2.1.2.1.19.9.2'
+  - name: panFlowHostServiceDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.3
+    type: counter
+    help: Device management session denied - 1.3.6.1.4.1.25461.2.1.2.1.19.9.3
+  - name: panFlowHostServiceUnknown
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.4
+    type: counter
+    help: 'Session discarded: unknown application to control plane - 1.3.6.1.4.1.25461.2.1.2.1.19.9.4'
+  - name: panPktAllocFailure
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.5
+    type: counter
+    help: Packet allocation error - 1.3.6.1.4.1.25461.2.1.2.1.19.9.5
+  - name: panPktAllocFailureCos
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.6
+    type: counter
+    help: Packet allocation error due to QoS control - 1.3.6.1.4.1.25461.2.1.2.1.19.9.6
+  - name: panSessionDiscard
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.9.7
+    type: counter
+    help: Session set to discard by security policy check - 1.3.6.1.4.1.25461.2.1.2.1.19.9.7
+  - name: panFlowIpfragFragErr
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.10.1
+    type: counter
+    help: 'Packet dropped: IP fragmentation error - 1.3.6.1.4.1.25461.2.1.2.1.19.10.1'
+  - name: panFlowIpfragRecv
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.10.2
+    type: counter
+    help: IP fragments received - 1.3.6.1.4.1.25461.2.1.2.1.19.10.2
+  - name: panTcpAllocWqeFailed
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.1
+    type: counter
+    help: wqe allocation failure in tcp - 1.3.6.1.4.1.25461.2.1.2.1.19.11.1
+  - name: panTcpDeny
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.2
+    type: counter
+    help: session denied because of failure in tcp reassembly - 1.3.6.1.4.1.25461.2.1.2.1.19.11.2
+  - name: panTcpDropOutOfWnd
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.3
+    type: counter
+    help: out-of-window packets dropped - 1.3.6.1.4.1.25461.2.1.2.1.19.11.3
+  - name: panTcpDropPacket
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.4
+    type: counter
+    help: packets dropped because of failure in tcp reassembly - 1.3.6.1.4.1.25461.2.1.2.1.19.11.4
+  - name: panFlowActionClose
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.5
+    type: counter
+    help: TCP sessions closed via injecting RST - 1.3.6.1.4.1.25461.2.1.2.1.19.11.5
+  - name: panFlowActionReset
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.6
+    type: counter
+    help: TCP clients reset via responding RST - 1.3.6.1.4.1.25461.2.1.2.1.19.11.6
+  - name: panFlowTcpNonSyn
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.7
+    type: counter
+    help: Non-SYN TCP packets without session match - 1.3.6.1.4.1.25461.2.1.2.1.19.11.7
+  - name: panTcpExceedSegLimit
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.19.11.8
+    type: counter
+    help: packets dropped due to the limitation on global tcp out-of-order pack -
+      1.3.6.1.4.1.25461.2.1.2.1.19.11.8
+  - name: panSysSwVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.1
+    type: DisplayString
+    help: Full software version - 1.3.6.1.4.1.25461.2.1.2.1.1
+  - name: panSysHwVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.2
+    type: DisplayString
+    help: Hardware version of the unit. - 1.3.6.1.4.1.25461.2.1.2.1.2
+  - name: panSysSerialNumber
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.3
+    type: DisplayString
+    help: The serial number of the unit - 1.3.6.1.4.1.25461.2.1.2.1.3
+  - name: panSysTimeZoneOffset
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.4
+    type: gauge
+    help: The offset in seconds from UTC of the system's time zone - 1.3.6.1.4.1.25461.2.1.2.1.4
+  - name: panSysDaylightSaving
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.5
+    type: gauge
+    help: Whether daylight savings are in currently in effect for the system's time
+      zone. - 1.3.6.1.4.1.25461.2.1.2.1.5
+  - name: panSysVpnClientVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.6
+    type: DisplayString
+    help: Currently installed VPN client package version - 1.3.6.1.4.1.25461.2.1.2.1.6
+  - name: panSysAppVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.7
+    type: DisplayString
+    help: Currently installed application definition version - 1.3.6.1.4.1.25461.2.1.2.1.7
+  - name: panSysAvVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.8
+    type: DisplayString
+    help: Currently installed antivirus version - 1.3.6.1.4.1.25461.2.1.2.1.8
+  - name: panSysThreatVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.9
+    type: DisplayString
+    help: Currently installed threat definition version - 1.3.6.1.4.1.25461.2.1.2.1.9
+  - name: panSysUrlFilteringVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.10
+    type: DisplayString
+    help: Currently installed URL filtering version - 1.3.6.1.4.1.25461.2.1.2.1.10
+  - name: panSysHAState
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.11
+    type: DisplayString
+    help: Current high-availability state. - 1.3.6.1.4.1.25461.2.1.2.1.11
+  - name: panSysHAPeerState
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.12
+    type: DisplayString
+    help: Current peer high-availability state. - 1.3.6.1.4.1.25461.2.1.2.1.12
+  - name: panSysHAMode
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.13
+    type: DisplayString
+    help: Current high-availability mode (disabled, active-passive, or active-active).
+      - 1.3.6.1.4.1.25461.2.1.2.1.13
+  - name: panSysUrlFilteringDatabase
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.14
+    type: DisplayString
+    help: Current installed URL filtering database (surfcontrol, brightcloud, etc)
+      - 1.3.6.1.4.1.25461.2.1.2.1.14
+  - name: panSysGlobalProtectClientVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.15
+    type: DisplayString
+    help: Currently installed global-protect client package version - 1.3.6.1.4.1.25461.2.1.2.1.15
+  - name: panSysOpswatDatafileVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.16
+    type: DisplayString
+    help: Currently installed opswat database version - 1.3.6.1.4.1.25461.2.1.2.1.16
+  - name: panSysWildfireVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.17
+    type: DisplayString
+    help: Currently installed wildfire content version - 1.3.6.1.4.1.25461.2.1.2.1.17
+  - name: panSysWildfirePrivateCloudVersion
+    oid: 1.3.6.1.4.1.25461.2.1.2.1.18
+    type: DisplayString
+    help: Currently installed wildfire private cloud content version - 1.3.6.1.4.1.25461.2.1.2.1.18
+  - name: panSessionUtilization
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.1
+    type: gauge
+    help: Session table utilization percentage - 1.3.6.1.4.1.25461.2.1.2.3.1
+  - name: panSessionMax
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.2
+    type: gauge
+    help: Total number of sessions supported. - 1.3.6.1.4.1.25461.2.1.2.3.2
+  - name: panSessionActive
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.3
+    type: gauge
+    help: Total number of active sessions. - 1.3.6.1.4.1.25461.2.1.2.3.3
+  - name: panSessionActiveTcp
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.4
+    type: gauge
+    help: Total number of active TCP sessions. - 1.3.6.1.4.1.25461.2.1.2.3.4
+  - name: panSessionActiveUdp
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.5
+    type: gauge
+    help: Total number of active UDP sessions. - 1.3.6.1.4.1.25461.2.1.2.3.5
+  - name: panSessionActiveICMP
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.6
+    type: gauge
+    help: Total number of active ICMP sessions. - 1.3.6.1.4.1.25461.2.1.2.3.6
+  - name: panSessionActiveSslProxy
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.7
+    type: gauge
+    help: Total number of active SSL proxy sessions. - 1.3.6.1.4.1.25461.2.1.2.3.7
+  - name: panSessionSslProxyUtilization
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.8
+    type: gauge
+    help: SSL proxy Session utilization percentage - 1.3.6.1.4.1.25461.2.1.2.3.8
+  - name: panVsysId
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.1
+    type: gauge
+    help: Vsys id - 1.3.6.1.4.1.25461.2.1.2.3.9.1.1
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panVsysName
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.2
+    type: DisplayString
+    help: User assigned vsys name (empty string if not available) - 1.3.6.1.4.1.25461.2.1.2.3.9.1.2
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panVsysSessionUtilizationPct
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.3
+    type: gauge
+    help: Vsys utilization percentage, if session limit is configured - 1.3.6.1.4.1.25461.2.1.2.3.9.1.3
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panVsysActiveSessions
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.4
+    type: gauge
+    help: Active sessions on this Vsys - 1.3.6.1.4.1.25461.2.1.2.3.9.1.4
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panVsysMaxSessions
+    oid: 1.3.6.1.4.1.25461.2.1.2.3.9.1.5
+    type: gauge
+    help: Max sessions on this Vsys, if session limit is configured - 1.3.6.1.4.1.25461.2.1.2.3.9.1.5
+    indexes:
+    - labelname: panVsysId
+      type: gauge
+  - name: panGPGWUtilizationPct
+    oid: 1.3.6.1.4.1.25461.2.1.2.5.1.1
+    type: gauge
+    help: GlobalProtect Gateway utilization percentage - 1.3.6.1.4.1.25461.2.1.2.5.1.1
+  - name: panGPGWUtilizationMaxTunnels
+    oid: 1.3.6.1.4.1.25461.2.1.2.5.1.2
+    type: gauge
+    help: Max tunnels allowed - 1.3.6.1.4.1.25461.2.1.2.5.1.2
+  - name: panGPGWUtilizationActiveTunnels
+    oid: 1.3.6.1.4.1.25461.2.1.2.5.1.3
+    type: gauge
+    help: Number of active tunnels - 1.3.6.1.4.1.25461.2.1.2.5.1.3

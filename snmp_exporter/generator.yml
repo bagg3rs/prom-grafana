@@ -1,0 +1,66 @@
+modules:
+  # Default IF-MIB interfaces table with ifIndex.
+  if_mib:
+    walk: [sysUpTime, interfaces, ifXTable]
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+      - source_indexes: [ifIndex]
+        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+
+# Cisco Wireless LAN Controller
+  cisco_wlc:
+    walk:
+      - interfaces
+      - ifXTable
+      - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
+      - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
+      - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
+      - 1.3.6.1.4.1.14179.2.2.2.1.15   # bsnApIfNoOfUsers
+      - 1.3.6.1.4.1.14179.2.2.6.1      # bsnAPIfDot11CountersTable
+      - 1.3.6.1.4.1.14179.2.2.13.1.3   # bsnAPIfLoadChannelUtilization
+      - 1.3.6.1.4.1.14179.2.2.15.1.21  # bsnAPIfDBNoisePower
+    lookups:
+      - source_indexes: [bsnDot11EssIndex]
+        lookup: bsnDot11EssSsid
+        drop_source_indexes: true
+      - source_indexes: [bsnAPDot3MacAddress]
+        lookup: bsnAPName
+        drop_source_indexes: true
+    overrides:
+      ifType:
+        type: EnumAsInfo
+
+# Palo Alto Firewalls
+#
+# Palo Alto MIBs can be found here:
+# https://www.paloaltonetworks.com/documentation/misc/snmp-mibs.html
+#
+# PanOS 7.0 enterprise MIBs:
+# https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
+#
+# Tested on a Palo Alto Networks PA-3020 series firewall
+#
+  paloalto_fw:
+    walk:
+      - sysUpTime
+      - interfaces
+      - hrDevice
+      - hrSystem
+      - hrStorage
+      - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
+      - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
+      - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect

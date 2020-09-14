@@ -1,0 +1,28 @@
+[
+  {
+    "targets": [
+      "localhost:9090"
+    ],
+    "labels": {
+      "job": "prometheus"
+    }
+  },
+  {
+    "targets": [
+      "metricssimulator:8080"
+    ],
+    "labels": {
+      "job": "metricssimulator",
+      "__metrics_path__": "actuator/prometheus"
+    }
+  },
+  {
+    "targets": [
+      "snmp-exporter:9117"
+    ],
+    "labels": {
+      "job": "snmp",
+      "__metrics_path__": "/metrics"
+    }
+  }
+]
