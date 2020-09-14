@@ -1,1 +1,2 @@
-# Prometheus and Grafana demo including snmp scrapping
+# Prometheus and Grafana Demo
+Promethues plus SNMP_Exporter
