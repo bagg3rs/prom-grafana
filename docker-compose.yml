@@ -32,7 +32,10 @@ services:
       - '--storage.tsdb.path=/prometheus'
     ports:
       - 9090:9090
-  metricssimulator:
-    build: ./
+  blackbox-exporter:
+    image: prom/blackbox-exporter:latest
+    privileged: true
+    volumes:
+      - ./blackbox.yml:/etc/blackbox_exporter/config.yml
     ports:
-    - 8080:8080
+      - '9115:9115'
