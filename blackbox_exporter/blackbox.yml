@@ -5,3 +5,28 @@ modules:
     http:
       valid_status_codes: []
       method: GET
+  icmp:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+      source_ip_address: "127.0.0.1"
+  dns_udp:
+    prober: dns
+    timeout: 5s
+    dns:
+      query_name: "www.prometheus.io"
+      query_type: "A"
+      valid_rcodes:
+      - NOERROR
+      validate_answer_rrs:
+        fail_if_matches_regexp:
+        - ".*127.0.0.1"
+        fail_if_not_matches_regexp:
+        - "www.prometheus.io.\t300\tIN\tA\t127.0.0.1"
+      validate_authority_rrs:
+        fail_if_matches_regexp:
+        - ".*127.0.0.1"
+      validate_additional_rrs:
+        fail_if_matches_regexp:
+        - ".*127.0.0.1"
