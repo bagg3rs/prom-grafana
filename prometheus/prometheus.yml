@@ -62,3 +62,18 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox_exporter:9115 #inside dockercompose
+  - job_name: blackbox-ping
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+        - 9.9.9.9   # <== Put here your targets
+        - 1.1.1.1   # <== Put here your targets
+    relabel_configs:    # <== This comes from the blackbox exporter README
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox_exporter:9115 # Blackbox exporter.
