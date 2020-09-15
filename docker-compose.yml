@@ -36,6 +36,6 @@ services:
     image: prom/blackbox-exporter:latest
     privileged: true
     volumes:
-      - ./blackbox.yml:/etc/blackbox_exporter/config.yml
+      - ./blackbox.yml:/etc/blackbox_exporter/blackbox.yml
     ports:
       - '9115:9115'
