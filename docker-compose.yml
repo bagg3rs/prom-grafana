@@ -5,6 +5,8 @@ volumes:
 services:
   grafana:
     image: grafana/grafana:7.1.5
+    networks:
+      - prometheus
     ports:
       - 3000:3000
     volumes:
@@ -18,12 +20,16 @@ services:
     restart: unless-stopped
   snmp-exporter:
     image: prom/snmp-exporter
+    networks:
+      - prometheus
     ports:
       - 9116:9116
     volumes:
       - ./snmp_exporter/:/etc/snmp_exporter/
   prometheus:
     image: prom/prometheus:v2.20.1
+    networks:
+      - prometheus
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -34,6 +40,8 @@ services:
       - 9090:9090
   blackbox-exporter:
     image: prom/blackbox-exporter:latest
+    networks:
+      - prometheus
     privileged: true
     volumes:
       - ./blackbox.yml:/etc/blackbox_exporter/blackbox.yml
