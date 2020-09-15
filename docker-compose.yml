@@ -47,3 +47,6 @@ services:
       - ./blackbox.yml:/etc/blackbox_exporter/blackbox.yml
     ports:
       - '9115:9115'
+networks:
+  prometheus:
+    external: true
