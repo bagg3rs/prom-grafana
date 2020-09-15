@@ -29,11 +29,11 @@ scrape_configs:
       - targets:
         - 172.16.181.10  # SNMP device.
         - 172.16.181.11
-        - 172.16.181.30
-        - 172.16.181.6
-        - 172.16.181.20
+        # - 172.16.181.30
+        # - 172.16.181.6
+        # - 172.16.181.20
         - 172.16.181.201 #esxi
-        - 172.16.181.202 #esxi
+        # - 172.16.181.202 #esxi 
     metrics_path: /snmp
     params:
       module: [paloalto_fw]
@@ -52,7 +52,9 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-        - http://blackbox_exporter:8080
+        - http://bbc.co.uk
+        - http://intranet.noms.gsi.gov.uk/
+        - https://194.33.254.123:4999/ #SOP on OCI ping test page
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
