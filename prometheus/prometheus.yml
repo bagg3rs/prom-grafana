@@ -63,7 +63,7 @@ scrape_configs:
   - job_name: blackbox-ping
     metrics_path: /probe
     params:
-      module: [icmp_ipv4]
+      module: [icmp]
     static_configs:
       - targets:
         - 9.9.9.9   # <== Put here your targets
