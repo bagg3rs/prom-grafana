@@ -5,12 +5,11 @@ modules:
     http:
       valid_status_codes: []
       method: GET
-      preferred_ip_protocol: "ip4"
-  icmp:
+      preferred_ip_protocol: ip4
+  icmp_ipv4:
     prober: icmp
-    timeout: 5s
     icmp:
-      preferred_ip_protocol: "ip4"
+      preferred_ip_protocol: ip4
   dns_udp:
     prober: dns
     timeout: 5s
