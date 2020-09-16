@@ -38,7 +38,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
     ports:
       - 9090:9090
-  blackbox-exporter:
+  blackbox_exporter:
     image: prom/blackbox-exporter:latest
     networks:
       - prometheus

@@ -59,7 +59,7 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 127.0.0.1:9115 #inside dockercompose
+        replacement: blackbox_exporter:9115 #inside dockercompose
   - job_name: blackbox-ping
     metrics_path: /probe
     params:
