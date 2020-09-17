@@ -6,7 +6,7 @@ modules:
       valid_status_codes: []
       method: GET
       preferred_ip_protocol: "ipv4" # defaults to "ip6"
-      ip_protocol_fallback: false  # no fallback to "ip6"
+      # ip_protocol_fallback: false  # no fallback to "ip6"
   icmp:
     prober: icmp
     icmp:
