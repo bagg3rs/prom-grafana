@@ -12,3 +12,6 @@ Promethues SNMP_Exporter Blackbox_Exporter Grafana and image renderer
 * cd prom-grafana
 * docker-compose up
 * to stop run control c
+* access Grafana Dashboard - http://localhost:3000
+  * username _admin_ password _changeme_
+* access Prometheus Dashboard - http://localhost:9090
