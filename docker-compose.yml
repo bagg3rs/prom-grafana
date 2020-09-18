@@ -18,6 +18,12 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - AWS_SDK_LOAD_CONFIG=1
     restart: unless-stopped
+  renderer: # https://github.com/grafana/grafana-image-renderer
+    image: grafana/grafana-image-renderer:latest
+    ports:
+      - 8081
+    environment:
+      ENABLE_METRICS: 'true'
   snmp-exporter:
     image: prom/snmp-exporter
     networks:
@@ -47,6 +53,6 @@ services:
       - ./blackbox.yml:/etc/blackbox_exporter/blackbox.yml
     ports:
       - '9115:9115'
-networks:
+networks: #Create network manually if error on creating network due to host restriction e.g. docker create network prometheus
   prometheus:
     external: true
