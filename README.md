@@ -10,6 +10,7 @@ Promethues SNMP_Exporter Blackbox_Exporter Grafana and image renderer
 * via cli run from a folder of your choice, cloning creates a folder of the repo for you
 * git clone https://github.com/bagg3rs/prom-grafana
 * cd prom-grafana
+* docker network create prometheus
 * docker-compose up
 * to stop run control c
 * access Grafana Dashboard - http://localhost:3000
