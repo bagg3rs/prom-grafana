@@ -2,7 +2,7 @@
 Promethues SNMP_Exporter Blackbox_Exporter Grafana and image renderer
 
 ## Prerequisites
-* install docker and docker-compose see [See Docker installtion] (https://docs.docker.com/get-docker/)
+* install docker and docker-compose see [See Docker installation] (https://docs.docker.com/get-docker/)
 * install git
 ## Deploy the things
 * clone repo
