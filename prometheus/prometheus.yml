@@ -24,14 +24,16 @@ scrape_configs:
       - files:
         - /etc/prometheus/targets.json
 
-  - job_name: 'snmp'
+  - job_name: 'paloalto_fw_corsh'
     static_configs:
       - targets:
-        - 192.168.0.254  # SNMP device.
-        - 10.0.0.1  # SNMP device.
+        - 172.16.181.10
+        - 172.16.181.11
+        - 172.16.181.7
+        - 172.16.181.8
     metrics_path: /snmp
     params:
-      module: [paloalto_fw]
+      module: []
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -39,7 +41,72 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
-        
+
+  - job_name: 'paloalto_fw_farn'
+    static_configs:
+      - targets:
+        - 172.16.182.10
+        - 172.16.182.11
+        - 172.16.182.7
+        - 172.16.182.8
+    metrics_path: /snmp
+    params:
+      module: []
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
+
+  - job_name: 'junos_corsh'
+    static_configs:
+      - targets:
+        - 172.16.181.6
+        - 172.16.181.20
+        - 172.16.181.30
+    metrics_path: /snmp
+    params:
+      module: []
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
+  
+  - job_name: 'raritan_corsh'
+    static_configs:
+      - targets:
+        - 172.16.181.5
+    metrics_path: /snmp
+    params:
+      module: []
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
+
+  - job_name: 'raritan_farn'
+    static_configs:
+      - targets:
+        - 172.16.182.5
+    metrics_path: /snmp
+    params:
+      module: []
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.        
+
 # Blackbox Exporter probes endpoints over HTTP, HTTPS, DNS, TCP or ICMP protocols, returning detailed metrics about the request,
 # including whether or not it was successful and how long it took to receive a response.
   - job_name: 'blackbox'
@@ -64,6 +131,10 @@ scrape_configs:
       - targets:
         - 9.9.9.9   # <== Put here your targets
         - 1.1.1.1   # <== Put here your targets
+        - 172.16.181.10
+        - 172.16.181.7
+        - 172.16.182.7
+        - 172.16.182.10
     relabel_configs:    # <== This comes from the blackbox exporter README
       - source_labels: [__address__]
         target_label: __param_target

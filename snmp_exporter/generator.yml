@@ -7,10 +7,8 @@ modules:
         lookup: ifAlias
       - source_indexes: [ifIndex]
         # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
-        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
-      - source_indexes: [ifIndex]
-        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
-        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+        # lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+        lookup: ifDescr
     overrides:
       ifAlias:
         ignore: true # Lookup metric
@@ -18,29 +16,6 @@ modules:
         ignore: true # Lookup metric
       ifName:
         ignore: true # Lookup metric
-      ifType:
-        type: EnumAsInfo
-
-# Cisco Wireless LAN Controller
-  cisco_wlc:
-    walk:
-      - interfaces
-      - ifXTable
-      - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
-      - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
-      - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
-      - 1.3.6.1.4.1.14179.2.2.2.1.15   # bsnApIfNoOfUsers
-      - 1.3.6.1.4.1.14179.2.2.6.1      # bsnAPIfDot11CountersTable
-      - 1.3.6.1.4.1.14179.2.2.13.1.3   # bsnAPIfLoadChannelUtilization
-      - 1.3.6.1.4.1.14179.2.2.15.1.21  # bsnAPIfDBNoisePower
-    lookups:
-      - source_indexes: [bsnDot11EssIndex]
-        lookup: bsnDot11EssSsid
-        drop_source_indexes: true
-      - source_indexes: [bsnAPDot3MacAddress]
-        lookup: bsnAPName
-        drop_source_indexes: true
-    overrides:
       ifType:
         type: EnumAsInfo
 
@@ -54,7 +29,7 @@ modules:
 #
 # Tested on a Palo Alto Networks PA-3020 series firewall
 #
-  paloalto_fw:
+  paloalto_fw_corsh:
     walk:
       - sysUpTime
       - interfaces
@@ -62,5 +37,94 @@ modules:
       - hrSystem
       - hrStorage
       - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
+      - 1.3.6.1.4.1.25461.2.1.2.2 # panChassis
       - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
+      - 1.3.6.1.4.1.25461.2.1.2.4 # panMgmt
       - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
+    auth:
+      community: TdffYffyMUX8EwvPCmwS
+
+  paloalto_fw_farn:
+    walk:
+      - sysUpTime
+      - interfaces
+      - hrDevice
+      - hrSystem
+      - hrStorage
+      - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
+      - 1.3.6.1.4.1.25461.2.1.2.2 # panChassis
+      - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
+      - 1.3.6.1.4.1.25461.2.1.2.4 # panMgmt
+      - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
+    auth:
+      community: sWPQ6BjH9kYMDtxZ4Sel
+
+  juniper_corsh:
+    walk:
+      - sysUpTime
+      - interfaces
+      - 1.3.6.1.4.1.34550.20.1.1
+      - 1.3.6.1.4.1.34550.20.2.1
+      - 1.3.6.1.4.1.34550.20.2.1.1
+      - 1.3.6.1.4.1.34550.20.2.1.1.1
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.1
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.2
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.3
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.4
+      - 1.3.6.1.4.1.34550.20.2.1.1.1.6
+    auth:
+      community: TdffYffyMUX8EwvPCmwS
+
+  junos_corsh:
+    walk:
+      - sysUpTime
+      - interfaces
+      - 1.3.6.1.4.1.2636.1
+      - 1.3.6.1.4.1.2636.1.1
+      - 1.3.6.1.4.1.2636.1.1.1
+      - 1.3.6.1.4.1.2636.1.1.2
+      - 1.3.6.1.4.1.2636.1.1.3
+      - 1.3.6.1.4.1.2636.1.1.4
+      - 1.3.6.1.4.1.2636.1.1.1.2
+      - 1.3.6.1.4.1.2636.1.1.1.2.137 # Juniper SRX 1500
+      - 1.3.6.1.4.1.2636.1.1.1.2.109 # Juniper EX4600
+    auth:
+      community: TdffYffyMUX8EwvPCmwS
+
+  raritan_corsh:
+    walk:
+      - sysUpTime
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.8 # inletVoltage
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.9 # inletActivePower
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.31 # outletWattHours
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.3  # outletOperationalState
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.4  # outletCurrent
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.5  # outletMaxCurrent
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
+      - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
+    auth:
+      community: TdffYffyMUX8EwvPCmwS
+
+  raritan_farn:
+    walk:
+      - sysUpTime
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.7 # inletCurrent
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.8 # inletVoltage
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.9 # inletActivePower
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.31 # outletWattHours
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.3  # outletOperationalState
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.4  # outletCurrent
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.5  # outletMaxCurrent
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.6  # outletVoltage
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.7  # outletActivePower
+      - 1.3.6.1.4.1.13742.4.1.3.1.5    # unitCpuTemp
+    lookups:
+      - source_indexes: [outletIndex]
+        lookup: outletLabel
+    overrides:
+      outletOperationalState:
+        type: EnumAsStateSet
+    auth:
+      community: sWPQ6BjH9kYMDtxZ4Sel
