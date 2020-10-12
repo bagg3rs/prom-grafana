@@ -24,7 +24,7 @@ scrape_configs:
       - files:
         - /etc/prometheus/targets.json
 
-  - job_name: 'paloalto_fw_corsh'
+  - job_name: 'paloalto_corsh'
     static_configs:
       - targets:
         - 172.16.181.10
@@ -42,7 +42,7 @@ scrape_configs:
       - target_label: __address__
         replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
 
-  - job_name: 'paloalto_fw_farn'
+  - job_name: 'paloalto_farn'
     static_configs:
       - targets:
         - 172.16.182.10
@@ -106,6 +106,51 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.        
+
+  - job_name: 'if_mib_corsh'
+    static_configs:
+      - targets:
+        - 172.16.181.5
+        - 172.16.181.10
+        - 172.16.181.11
+        - 172.16.181.7
+        - 172.16.181.8
+        - 172.16.181.6
+        - 172.16.181.20
+        - 172.16.181.30
+    metrics_path: /snmp
+    params:
+      module: []
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.      
+
+  - job_name: 'if_mib_farn'
+    static_configs:
+      - targets:
+        - 172.16.182.5
+        - 172.16.182.10
+        - 172.16.182.11
+        - 172.16.182.7
+        - 172.16.182.8
+        - 172.16.182.6
+        - 172.16.182.20
+        - 172.16.182.30
+    metrics_path: /snmp
+    params:
+      module: []
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.      
+
 
 # Blackbox Exporter probes endpoints over HTTP, HTTPS, DNS, TCP or ICMP protocols, returning detailed metrics about the request,
 # including whether or not it was successful and how long it took to receive a response.
