@@ -11,9 +11,8 @@ https://github.com/bagg3rs/prom-grafana`
   * `cd prom-grafana`
   * create a docker network `docker network create prometheus` 
   * start the containers  `docker-compose up`
-* To stop run `control c` on keyboard
-* access Grafana Dashboard - http://localhost:3000
-  * username `admin` password `changeme`
-* Access Prometheus Dashboard - http://localhost:9090 allows you to query and test metrics from Prometheus itself and other Exporters under `Status > Targets`
-* Access Promethues SNMP_Exporter - http://localhost:9116
-* Access Promethues Blackbox_Exporter - http://localhost:9115
+* the output from the containers will be shown in the terminal, to access grafana dashboard - open browser  http://localhost:3000
+ username `admin` password `changeme`
+* access Prometheus Dashboard - http://localhost:9090 allows you to query and test metrics from Prometheus itself and other Exporters under `Status > Targets`
+* access Promethues SNMP_Exporter - http://localhost:9116
+* access Promethues Blackbox_Exporter - http://localhost:9115
