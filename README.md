@@ -1,5 +1,5 @@
 # Prometheus and Grafana Demo
-Promethues SNMP_Exporter Blackbox_Exporter Grafana inclding image renderer
+Promethues, SNMP_Exporter, Blackbox_Exporter and Grafana which includes the image renderer container which enables rich notifications in slack/telegram etc
 
 ## Prerequisites
 * `docker and docker-compose` see [See Docker installation] (https://docs.docker.com/get-docker/)
