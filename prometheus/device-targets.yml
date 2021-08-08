@@ -1,0 +1,7 @@
+- targets:
+       - 192.168.0.170:9100
+  labels:
+       environment: home
+       datacentre: delphi
+       tenant_id: n/a
+       host: surface-pro3

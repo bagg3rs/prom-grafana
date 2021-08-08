@@ -23,11 +23,28 @@ scrape_configs:
     file_sd_configs:
       - files:
         - /etc/prometheus/targets.json
+        - /etc/prometheus/device-targets.yml
+
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+    - targets:
+      - cadvisor:8080
 
   - job_name: 'snmp_devices'
     static_configs:
       - targets:
         - 192.168.0.254 # enter some SNMP devices, will defualt to public and 161
+    metrics_path: /snmp
+    params:
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: snmp_exporter:9116  # The SNMP exporter's real hostname:port.
 
 # Blackbox Exporter probes endpoints over HTTP, HTTPS, DNS, TCP or ICMP protocols, returning detailed metrics about the request,
 # including whether or not it was successful and how long it took to receive a response.
@@ -38,6 +55,7 @@ scrape_configs:
     static_configs:
       - targets:
         - http://bbc.co.uk
+        - https://google.com
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -52,7 +70,9 @@ scrape_configs:
     static_configs:
       - targets:
         - 9.9.9.9   # <== Put here your targets
-        - 1.1.1.1   # <== Put here your targets
+        - 192.168.0.254  # <== Put here your targets
+        - 192.168.0.250
+          # <== Put here your targets
     relabel_configs:    # <== This comes from the blackbox exporter README
       - source_labels: [__address__]
         target_label: __param_target

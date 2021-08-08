@@ -9,7 +9,7 @@
   },
   {
     "targets": [
-      "snmp-exporter:9117"
+      "snmp_exporter:9116"
     ],
     "labels": {
       "job": "snmp",

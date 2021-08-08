@@ -1,12 +1,15 @@
-version: "3.8"
+version: "3.4"
+networks: #Create network manually if error on creating network due to host restriction e.g. docker create network prometheus
+  monitor-net: # "docker network create monitor-net"
+    external: true
 volumes:
   prometheus_data: {}
   grafana_data: {}
 services:
   grafana:
-    image: grafana/grafana:7.1.5
+    image: grafana/grafana:latest
     networks:
-      - prometheus
+      - monitor-net
     ports:
       - 3000:3000
     volumes:
@@ -22,24 +25,27 @@ services:
       - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
       - GF_LOG_FILTERS=rendering:debug
     restart: unless-stopped
+
   renderer: # https://github.com/grafana/grafana-image-renderer
     image: grafana/grafana-image-renderer:latest
     ports:
       - 8081
     environment:
       ENABLE_METRICS: 'true'
-  snmp-exporter:
+
+  snmp_exporter:
     image: prom/snmp-exporter
     networks:
-      - prometheus
+      - monitor-net
     ports:
       - 9116:9116
     volumes:
       - ./snmp_exporter/:/etc/snmp_exporter/
+
   prometheus:
     image: prom/prometheus:v2.20.1
     networks:
-      - prometheus
+      - monitor-net
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -48,15 +54,39 @@ services:
       - '--storage.tsdb.path=/prometheus'
     ports:
       - 9090:9090
+
   blackbox_exporter:
     image: prom/blackbox-exporter:latest
     networks:
-      - prometheus
+      - monitor-net
     privileged: true
     volumes:
       - ./blackbox.yml:/etc/blackbox_exporter/blackbox.yml
     ports:
       - '9115:9115'
-networks: #Create network manually if error on creating network due to host restriction e.g. docker create network prometheus
-  prometheus:
-    external: true
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    networks:
+      - monitor-net
+    ports:
+    - 8080:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    command:
+      - '-housekeeping_interval=10s' # https://github.com/google/cadvisor/issues/2523
+      - '-docker_only=true' # ^^^^ 19 > ~5%
+    depends_on:
+    - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+    - monitor-net
+    ports:
+    - 6379:6379
