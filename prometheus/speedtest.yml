@@ -1,0 +1,6 @@
+- targets:
+       - speedtest-exporter:9798
+  labels:
+       environment: prod
+       datacentre: delphi
+       isp: g-network

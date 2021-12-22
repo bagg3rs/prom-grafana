@@ -1,15 +1,18 @@
 version: "3.4"
 networks: #Create network manually if error on creating network due to host restriction e.g. docker create network prometheus
-  monitor-net: # "docker network create monitor-net"
+  proxy-net: # "docker network create monitor-net"
     external: true
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  uptime_kuma:
+  config:
 services:
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
     networks:
-      - monitor-net
+      - proxy-net
     ports:
       - 3000:3000
     volumes:
@@ -25,9 +28,17 @@ services:
       - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
       - GF_LOG_FILTERS=rendering:debug
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.routers.grafana.tls.certresolver=myresolver"
+      - "traefik.http.routers.grafana.rule=Host(`${GRAFANA}`)"
 
   renderer: # https://github.com/grafana/grafana-image-renderer
     image: grafana/grafana-image-renderer:latest
+    networks:
+      - proxy-net
     ports:
       - 8081
     environment:
@@ -35,41 +46,77 @@ services:
 
   snmp_exporter:
     image: prom/snmp-exporter
+    container_name: snmp-exporter
     networks:
-      - monitor-net
+      - proxy-net
     ports:
       - 9116:9116
     volumes:
       - ./snmp_exporter/:/etc/snmp_exporter/
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.snmp-exporter.entrypoints=websecure"
+      - "traefik.http.routers.snmp-exporter.tls=true"
+      - "traefik.http.routers.snmp-exporter.tls.certresolver=myresolver"
+      - "traefik.http.routers.snmp-exporter.rule=Host(`${SNMP}`)"
 
   prometheus:
-    image: prom/prometheus:v2.20.1
+    image: prom/prometheus:latest
+    container_name: prometheus
     networks:
-      - monitor-net
+      - proxy-net
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=1y'
     ports:
       - 9090:9090
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls=true"
+      - "traefik.http.routers.prometheus.tls.certresolver=myresolver"
+      - "traefik.http.routers.prometheus.rule=Host(`${PROMETHEUS}`)"
 
   blackbox_exporter:
     image: prom/blackbox-exporter:latest
+    container_name: blackbox-exporter
     networks:
-      - monitor-net
+      - proxy-net
     privileged: true
     volumes:
-      - ./blackbox.yml:/etc/blackbox_exporter/blackbox.yml
+      - "./config:/config"
+    command:
+      - '--config.file=/config/blackbox.yml'
     ports:
       - '9115:9115'
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.blackbox-exporter.entrypoints=websecure"
+      - "traefik.http.routers.blackbox-exporter.tls=true"
+      - "traefik.http.routers.blackbox-exporter.tls.certresolver=myresolver"
+      - "traefik.http.routers.blackbox-exporter.rule=Host(`${BLACKBOX}`)"
+
+  speedtest-exporter:
+    image: miguelndecarvalho/speedtest-exporter
+    container_name: speedtest-exporter
+    networks:
+      - proxy-net
+    restart: always
+    ports:
+        - 9798:9798
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
     networks:
-      - monitor-net
+      - proxy-net
     ports:
     - 8080:8080
     volumes:
@@ -82,11 +129,36 @@ services:
       - '-docker_only=true' # ^^^^ 19 > ~5%
     depends_on:
     - redis
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cadvisor.entrypoints=websecure"
+      - "traefik.http.routers.cadvisor.tls=true"
+      - "traefik.http.routers.cadvisor.tls.certresolver=myresolver"
+      - "traefik.http.routers.cadvisor.rule=Host(`${CADVISOR}`)"
 
   redis:
     image: redis:latest
     container_name: redis
     networks:
-    - monitor-net
+      - proxy-net
     ports:
     - 6379:6379
+    restart: unless-stopped
+
+  uptime-kuma:
+    image: louislam/uptime-kuma
+    container_name: uptime-kuma
+    volumes:
+      - ./uptime-kuma:/app/data
+    ports:
+      - 3001:3001
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime.entrypoints=websecure"
+      - "traefik.http.routers.uptime.tls=true"
+      - "traefik.http.routers.uptime.tls.certresolver=myresolver"
+      - "traefik.http.routers.uptime.rule=Host(`${UPTIME}`)"
+    networks:
+      - proxy-net

@@ -1,0 +1,40 @@
+modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_status_codes: []
+      method: GET
+      preferred_ip_protocol: "ipv4" # defaults to "ip6"
+      # ip_protocol_fallback: false  # no fallback to "ip6"
+  icmp:
+    prober: icmp
+    icmp:
+      preferred_ip_protocol: ip4
+  dns_udp:
+    prober: dns
+    timeout: 5s
+    dns:
+      query_name: "www.prometheus.io"
+      query_type: "A"
+      valid_rcodes:
+      - NOERROR
+      validate_answer_rrs:
+        fail_if_matches_regexp:
+        - ".*127.0.0.1"
+        fail_if_not_matches_regexp:
+        - "www.prometheus.io.\t300\tIN\tA\t127.0.0.1"
+      validate_authority_rrs:
+        fail_if_matches_regexp:
+        - ".*127.0.0.1"
+      validate_additional_rrs:
+        fail_if_matches_regexp:
+        - ".*127.0.0.1"
+  dns_txt:
+    prober: dns
+    dns:
+      query_name: "robustperception.io"
+      query_type: "TXT"
+      # validate_answer_rrs:
+      #   fail_if_not_matches_regexp:
+      #    - "robustperception.io.\t.*\tIN\tMX\t.*google.*"

@@ -1,7 +1,7 @@
 # my global config
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
@@ -34,7 +34,11 @@ scrape_configs:
   - job_name: 'snmp_devices'
     static_configs:
       - targets:
-        - 192.168.0.254 # enter some SNMP devices, will defualt to public and 161
+        - fw01.onelumen.co.uk
+        - ap01.onelumen.co.uk
+        - ap02.onelumen.co.uk
+        - sw01.onelumen.co.uk
+        - sw02.onelumen.co.uk
     metrics_path: /snmp
     params:
       module: [if_mib]
@@ -54,8 +58,9 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-        - http://bbc.co.uk
+        - https://github.com
         - https://google.com
+        - http://hassio.onelumen.co.uk:8123/
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -63,6 +68,7 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox_exporter:9115 #inside dockercompose
+
   - job_name: blackbox-ping
     metrics_path: /probe
     params:
@@ -70,8 +76,13 @@ scrape_configs:
     static_configs:
       - targets:
         - 9.9.9.9   # <== Put here your targets
-        - 192.168.0.254  # <== Put here your targets
-        - 192.168.0.250
+        - fw01.onelumen.co.uk
+        - ap01.onelumen.co.uk
+        - ap02.onelumen.co.uk
+        - sw01.onelumen.co.uk
+        - sw02.onelumen.co.uk
+        - 176.97.155.137
+        - hassio.onelumen.co.uk
           # <== Put here your targets
     relabel_configs:    # <== This comes from the blackbox exporter README
       - source_labels: [__address__]
@@ -80,3 +91,23 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox_exporter:9115 # Blackbox exporter.
+
+  - job_name: "hass"
+    scrape_interval: 60s
+    metrics_path: /api/prometheus
+    # Long-Lived Access Token
+    authorization:
+      credentials: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIwOTdmOGNkNzI5NzU0N2QwYjkyMzY1Y2UwNGU0YTUxZiIsImlhdCI6MTYyODg5NTIwMiwiZXhwIjoxOTQ0MjU1MjAyfQ.1JXm4f624Z0qwcZAa6CM2SX13tA-k6JlICT8paeypSk"
+
+    scheme: http
+    static_configs:
+      - targets: ['192.168.0.201:8123']
+
+  - job_name: "speedtest"
+    scrape_interval: 1h
+    scrape_timeout: 1m
+    # static_configs:
+    #   - targets: ['speedtest-exporter:9798']
+    file_sd_configs:
+      - files:
+        - /etc/prometheus/speedtest.yml
