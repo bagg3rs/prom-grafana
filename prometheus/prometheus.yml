@@ -1,7 +1,7 @@
 # my global config
 global:
-  scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
@@ -31,14 +31,15 @@ scrape_configs:
     - targets:
       - cadvisor:8080
 
+  # SNMP monitoring for network devices
+  # Configure your devices in device-targets.yml or below
   - job_name: 'snmp_devices'
     static_configs:
       - targets:
-        - fw01.onelumen.co.uk
-        - ap01.onelumen.co.uk
-        - ap02.onelumen.co.uk
-        - sw01.onelumen.co.uk
-        - sw02.onelumen.co.uk
+        # Add your SNMP-enabled devices here
+        # - firewall.local
+        # - switch.local
+        # - ap.local
     metrics_path: /snmp
     params:
       module: [if_mib]
@@ -50,8 +51,7 @@ scrape_configs:
       - target_label: __address__
         replacement: snmp_exporter:9116  # The SNMP exporter's real hostname:port.
 
-# Blackbox Exporter probes endpoints over HTTP, HTTPS, DNS, TCP or ICMP protocols, returning detailed metrics about the request,
-# including whether or not it was successful and how long it took to receive a response.
+  # Blackbox Exporter probes endpoints over HTTP, HTTPS, DNS, TCP or ICMP protocols
   - job_name: 'blackbox'
     metrics_path: /probe
     params:
@@ -60,54 +60,47 @@ scrape_configs:
       - targets:
         - https://github.com
         - https://google.com
-        - http://hassio.onelumen.co.uk:8123/
+        # Add your websites to monitor here
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: blackbox_exporter:9115 #inside dockercompose
+        replacement: blackbox_exporter:9115
 
+  # ICMP ping monitoring
   - job_name: blackbox-ping
     metrics_path: /probe
     params:
       module: [icmp]
     static_configs:
       - targets:
-        - 9.9.9.9   # <== Put here your targets
-        - fw01.onelumen.co.uk
-        - ap01.onelumen.co.uk
-        - ap02.onelumen.co.uk
-        - sw01.onelumen.co.uk
-        - sw02.onelumen.co.uk
-        - 176.97.155.137
-        - hassio.onelumen.co.uk
-          # <== Put here your targets
-    relabel_configs:    # <== This comes from the blackbox exporter README
+        - 8.8.8.8   # Google DNS
+        - 1.1.1.1   # Cloudflare DNS
+        # Add your hosts to ping here
+    relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: blackbox_exporter:9115 # Blackbox exporter.
+        replacement: blackbox_exporter:9115
 
-  - job_name: "hass"
-    scrape_interval: 60s
-    metrics_path: /api/prometheus
-    # Long-Lived Access Token
-    authorization:
-      credentials: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIwOTdmOGNkNzI5NzU0N2QwYjkyMzY1Y2UwNGU0YTUxZiIsImlhdCI6MTYyODg5NTIwMiwiZXhwIjoxOTQ0MjU1MjAyfQ.1JXm4f624Z0qwcZAa6CM2SX13tA-k6JlICT8paeypSk"
+  # Home Assistant metrics (optional - uncomment if you use it)
+  # - job_name: "hass"
+  #   scrape_interval: 60s
+  #   metrics_path: /api/prometheus
+  #   authorization:
+  #     credentials: "${HASS_TOKEN}"
+  #   scheme: http
+  #   static_configs:
+  #     - targets: ['${HASS_URL}']
 
-    scheme: http
-    static_configs:
-      - targets: ['192.168.0.201:8123']
-
+  # Speedtest monitoring (runs hourly to avoid excessive bandwidth usage)
   - job_name: "speedtest"
     scrape_interval: 1h
     scrape_timeout: 1m
-    # static_configs:
-    #   - targets: ['speedtest-exporter:9798']
     file_sd_configs:
       - files:
         - /etc/prometheus/speedtest.yml
