@@ -1,6 +1,6 @@
 version: "3.4"
-networks: #Create network manually if error on creating network due to host restriction e.g. docker create network prometheus
-  proxy-net: # "docker network create monitor-net"
+networks: 
+  monitor-net:
     external: true
 volumes:
   prometheus_data: {}
@@ -12,15 +12,15 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     networks:
-      - proxy-net
+      - monitor-net
     ports:
       - 3000:3000
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=changeme
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-changeme}
       - GF_USERS_ALLOW_SIGN_UP=false
       - AWS_SDK_LOAD_CONFIG=1
       # Grafana image-rendering
@@ -38,7 +38,7 @@ services:
   renderer: # https://github.com/grafana/grafana-image-renderer
     image: grafana/grafana-image-renderer:latest
     networks:
-      - proxy-net
+      - monitor-net
     ports:
       - 8081
     environment:
@@ -48,7 +48,7 @@ services:
     image: prom/snmp-exporter
     container_name: snmp-exporter
     networks:
-      - proxy-net
+      - monitor-net
     ports:
       - 9116:9116
     volumes:
@@ -65,7 +65,7 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     networks:
-      - proxy-net
+      - monitor-net
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -87,7 +87,7 @@ services:
     image: prom/blackbox-exporter:latest
     container_name: blackbox-exporter
     networks:
-      - proxy-net
+      - monitor-net
     privileged: true
     volumes:
       - "./config:/config"
@@ -107,7 +107,7 @@ services:
     image: miguelndecarvalho/speedtest-exporter
     container_name: speedtest-exporter
     networks:
-      - proxy-net
+      - monitor-net
     restart: always
     ports:
         - 9798:9798
@@ -116,7 +116,7 @@ services:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
     networks:
-      - proxy-net
+      - monitor-net
     ports:
     - 8080:8080
     volumes:
@@ -141,7 +141,7 @@ services:
     image: redis:latest
     container_name: redis
     networks:
-      - proxy-net
+      - monitor-net
     ports:
     - 6379:6379
     restart: unless-stopped
@@ -161,4 +161,4 @@ services:
       - "traefik.http.routers.uptime.tls.certresolver=myresolver"
       - "traefik.http.routers.uptime.rule=Host(`${UPTIME}`)"
     networks:
-      - proxy-net
+      - monitor-net
