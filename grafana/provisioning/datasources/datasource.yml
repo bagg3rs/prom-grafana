@@ -1,63 +1,54 @@
-
-# config file version
 apiVersion: 1
 
-# list of datasources that should be deleted from the database
-deleteDatasources:
-  - name: Prometheus
-    orgId: 1
-
-# list of datasources to insert/update depending
-# whats available in the database
 datasources:
-  # <string, required> name of the datasource. Required
   - name: Prometheus
-    # <string, required> datasource type. Required
     type: prometheus
-    # <string, required> access mode. direct or proxy. Required
     access: proxy
-    # <int> org id. will default to orgId 1 if not specified
     orgId: 1
-    # <string> url
-    url: http://prometheus:9090
-    # <string> database password, if used
-    password:
-    # <string> database user, if used
-    user:
-    # <string> database name, if used
-    database:
-    # <bool> enable/disable basic auth
-    basicAuth: false
-    # <string> basic auth username, if used
-    basicAuthUser:
-    # <string> basic auth password, if used
-    basicAuthPassword:
-    # <bool> enable/disable with credentials headers
-    withCredentials:
-    # <bool> mark as default datasource. Max one per org
-    isDefault: false
-    # <map> fields that will be converted to json and stored in json_data
+    url: http://localhost:9090
+    isDefault: true
     jsonData:
-      graphiteVersion: "1.1"
-      tlsAuth: false
-      tlsAuthWithCACert: false
-    # <string> json object of data that will be encrypted.
-    secureJsonData:
-      tlsCACert: "..."
-      tlsClientCert: "..."
-      tlsClientKey: "..."
+      timeInterval: "15s"
+      exemplarTraceIdDestinations:
+        - name: traceID
+          datasourceUid: tempo
     version: 1
-    # <bool> allow users to edit datasources from the UI.
     editable: true
-  - name: CloudWatch
-    type: cloudwatch
+
+  - name: Loki
+    type: loki
     access: proxy
     orgId: 1
+    url: http://192.168.0.185:3100
     jsonData:
-      defaultRegion: "eu-west-2"
-    secureJsonData:
-      accessKey: XXXX
-      secretKey: XXXX
+      derivedFields:
+        - datasourceUid: tempo
+          matcherRegex: '"traceID":"(\w+)"'
+          name: TraceID
+          url: '$${__value.raw}'
     version: 1
-    editable: false
+    editable: true
 
+  - name: Tempo
+    uid: tempo
+    type: tempo
+    access: proxy
+    orgId: 1
+    url: http://192.168.0.185:3200
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: loki
+        spanStartTimeShift: '-1h'
+        spanEndTimeShift: '1h'
+        tags: [{ key: 'service.name', value: 'service' }]
+      tracesToMetrics:
+        datasourceUid: prometheus
+        tags: [{ key: 'service.name', value: 'service' }]
+      serviceMap:
+        datasourceUid: prometheus
+      nodeGraph:
+        enabled: true
+      search:
+        hide: false
+    version: 1
+    editable: true
