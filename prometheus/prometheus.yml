@@ -7,6 +7,7 @@ scrape_configs:
     scrape_interval: 30s
     metrics_path: /api/prometheus
     authorization:
+      credentials: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhYTliMGM2Mjk0ZTc0NDQ2ODg0Y2RiNjU4ZTIxYjNjZiIsImlhdCI6MTc3MjEyMzg2OSwiZXhwIjoyMDg3NDgzODY5fQ.6H4fXpSY1gEFWDPUDkE3q6FegjbpimIRgmXPipAlmCk
     static_configs:
       - targets: ['192.168.0.201:8123']
 
@@ -45,7 +46,7 @@ scrape_configs:
   - job_name: 'blackbox'
     metrics_path: /probe
     params:
-      module: [http_2xx]
+      module: [http_2xx_no_tls]
     static_configs:
       - targets:
         - https://obsidian.onelumen.co.uk
@@ -56,7 +57,7 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 192.168.0.185:9115
+        replacement: localhost:9115
 
   - job_name: 'snmp_fw01'
     scrape_interval: 60s
@@ -65,13 +66,14 @@ scrape_configs:
     metrics_path: /snmp
     params:
       module: [if_mib]
+      auth: [public_v2]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 192.168.0.185:9116
+        replacement: localhost:9116
 
   - job_name: 'snmp_fw01_system'
     scrape_interval: 60s
@@ -80,10 +82,11 @@ scrape_configs:
     metrics_path: /snmp
     params:
       module: [edgerouter]
+      auth: [public_v2]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 192.168.0.185:9116
+        replacement: localhost:9116
