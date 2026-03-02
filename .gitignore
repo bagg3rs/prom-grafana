@@ -17,3 +17,16 @@ grafana/NPM_TOKEN
 # Prometheus binary
 prometheus/prometheus
 prometheus/promtool
+grafana/Dockerfile
+grafana/LICENSE
+grafana/NOTICE.md
+grafana/README.md
+grafana/VERSION
+grafana/conf/custom.ini
+grafana/conf/defaults.ini
+grafana/conf/ldap*.toml
+grafana/conf/sample.ini
+grafana/docs/
+grafana/npm-artifacts/
+grafana/packaging/
+grafana/tools/
