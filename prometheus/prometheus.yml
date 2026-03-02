@@ -1,42 +1,68 @@
-# my global config
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
+  scrape_interval: 30s
+  evaluation_interval: 30s
 
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-          # - alertmanager:9093
-
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-# - "first_rules.yml"
-# - "second_rules.yml"
-
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
 scrape_configs:
-  - job_name: 'file_based_sd'
-    file_sd_configs:
-      - files:
-        - /etc/prometheus/targets.json
-        - /etc/prometheus/device-targets.yml
-
-  - job_name: cadvisor
-    scrape_interval: 5s
+  - job_name: 'homeassistant'
+    scrape_interval: 30s
+    metrics_path: /api/prometheus
+    authorization:
+      credentials: "${HASS_TOKEN}"
     static_configs:
-    - targets:
-      - cadvisor:8080
+      - targets: ['192.168.0.201:8123']
 
-  # SNMP monitoring for network devices
-  # Configure your devices in device-targets.yml or below
-  - job_name: 'snmp_devices'
+  - job_name: 'node-exporter-pi'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['192.168.0.30:9100']
+
+  - job_name: 'node-exporter-macmini'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['192.168.0.50:9100']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'mac-mini'
+
+  - job_name: 'node-exporter-sp3'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['192.168.0.170:9100']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'sp3'
+
+  - job_name: 'traefik'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['192.168.0.185:8082']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'traefik-nas'
+
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
     static_configs:
       - targets:
-        - 192.168.0.254  # fw01 — EdgeRouter X SFP (SNMP community: public)
+        - https://obsidian.onelumen.co.uk
+        - https://grafana.onelumen.co.uk
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.0.185:9115
+
+  - job_name: 'snmp_fw01'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['192.168.0.254']  # fw01 — EdgeRouter X SFP
     metrics_path: /snmp
     params:
       module: [if_mib]
@@ -46,58 +72,4 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: snmp_exporter:9116  # The SNMP exporter's real hostname:port.
-
-  # Blackbox Exporter probes endpoints over HTTP, HTTPS, DNS, TCP or ICMP protocols
-  - job_name: 'blackbox'
-    metrics_path: /probe
-    params:
-      module: [http_2xx]
-    static_configs:
-      - targets:
-        - https://github.com
-        - https://google.com
-        # Add your websites to monitor here
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: blackbox_exporter:9115
-
-  # ICMP ping monitoring
-  - job_name: blackbox-ping
-    metrics_path: /probe
-    params:
-      module: [icmp]
-    static_configs:
-      - targets:
-        - 8.8.8.8   # Google DNS
-        - 1.1.1.1   # Cloudflare DNS
-        # Add your hosts to ping here
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: blackbox_exporter:9115
-
-  # Home Assistant metrics (optional - uncomment if you use it)
-  # - job_name: "hass"
-  #   scrape_interval: 60s
-  #   metrics_path: /api/prometheus
-  #   authorization:
-  #     credentials: "${HASS_TOKEN}"
-  #   scheme: http
-  #   static_configs:
-  #     - targets: ['${HASS_URL}']
-
-  # Speedtest monitoring (runs hourly to avoid excessive bandwidth usage)
-  - job_name: "speedtest"
-    scrape_interval: 1h
-    scrape_timeout: 1m
-    file_sd_configs:
-      - files:
-        - /etc/prometheus/speedtest.yml
+        replacement: 192.168.0.185:9116  # snmp_exporter on NAS
