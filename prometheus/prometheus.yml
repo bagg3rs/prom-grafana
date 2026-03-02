@@ -36,10 +36,7 @@ scrape_configs:
   - job_name: 'snmp_devices'
     static_configs:
       - targets:
-        # Add your SNMP-enabled devices here
-        # - firewall.local
-        # - switch.local
-        # - ap.local
+        - 192.168.0.254  # fw01 — EdgeRouter X SFP (SNMP community: public)
     metrics_path: /snmp
     params:
       module: [if_mib]
