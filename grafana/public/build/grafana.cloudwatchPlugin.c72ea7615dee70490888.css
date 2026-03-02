@@ -1,0 +1,1 @@
+.grafana-plugin-ui-date-input input[type=date]::-webkit-calendar-picker-indicator,.grafana-plugin-ui-date-input input[type=date]::-webkit-inner-spin-button,input.grafana-plugin-ui-date-input[type=date]::-webkit-calendar-picker-indicator,input.grafana-plugin-ui-date-input[type=date]::-webkit-inner-spin-button{-webkit-appearance:none;display:none}

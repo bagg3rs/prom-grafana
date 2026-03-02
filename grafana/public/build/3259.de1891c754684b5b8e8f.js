@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgrafana=self.webpackChunkgrafana||[]).push([[3259],{83259:(e,n,a)=>{a.r(n),a.d(n,{Trans:()=>s.x6,setTransComponent:()=>s.wK,setUseTranslateHook:()=>s.PM,useTranslate:()=>s.WD});var s=a(10991)}}]);

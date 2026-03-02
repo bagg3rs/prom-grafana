@@ -1,0 +1,3 @@
+"use strict";(self.webpackChunkgrafana=self.webpackChunkgrafana||[]).push([[8224],{38224:(A,t,a)=>{a.r(t),a.d(t,{AddToDashboard:()=>T});var s=a(74848),n=a(96540),e=a(7895),_=a(22787),D=a(56840),r=a(96673),O=a(20718),P=a(49987),M=a(39338);const T=({exploreId:o})=>{const[h,E]=(0,n.useState)(!1),i=(0,O.qq)(o),C=!!(0,r.useSelector)(i)?.queries?.length,d=(0,n.useCallback)(()=>E(!1),[]),l=(0,D.t)("explore.add-to-dashboard","Add to dashboard");return(0,s.jsxs)(s.Fragment,{children:[(0,s.jsx)(e.I,{icon:"apps",variant:"canvas",onClick:()=>E(!0),"aria-label":l,disabled:!C,children:l}),h&&(0,s.jsx)(_.a,{title:(0,M.t)(),onDismiss:d,isOpen:!0,children:(0,s.jsx)(P.H,{onClose:d,exploreId:o})})]})}}}]);
+
+//# sourceMappingURL=8224.afdf84247b5016fbaddf.js.map
