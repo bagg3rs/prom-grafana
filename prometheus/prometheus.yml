@@ -37,7 +37,7 @@ scrape_configs:
   - job_name: 'traefik'
     scrape_interval: 30s
     static_configs:
-      - targets: ['192.168.0.185:8082']
+      - targets: ['192.168.0.55:8082']
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
@@ -90,3 +90,12 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: localhost:9116
+
+  - job_name: 'cadvisor_nas'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['192.168.0.185:8090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'nas'
