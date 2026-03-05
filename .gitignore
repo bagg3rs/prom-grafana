@@ -11,7 +11,7 @@ grafana/public/
 grafana/tools/
 grafana/plugins-bundled/
 grafana/storybook/
-grafana/conf/provisioning/dashboards/
+grafana/conf/provisioning/dashboards/sample.yaml
 grafana/NPM_TOKEN
 
 # Prometheus binary
