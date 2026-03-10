@@ -1,334 +1,133 @@
 {
-  "__inputs": [],
-  "__requires": [
-    {
-      "id": "grafana",
-      "name": "Grafana",
-      "type": "grafana",
-      "version": "10.0.0"
-    },
-    {
-      "id": "tempo",
-      "name": "Tempo",
-      "type": "datasource",
-      "version": "1.0.0"
-    }
-  ],
-  "annotations": {
-    "list": []
-  },
-  "description": "OpenClaw LLM model usage \u2014 calls by model, token usage, latency",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": 5,
-  "links": [],
+  "uid": "openclaw-llm-usage",
+  "title": "OpenClaw — LLM Model Usage",
+  "tags": ["openclaw", "llm", "otel"],
+  "timezone": "browser",
+  "refresh": "30s",
+  "time": { "from": "now-24h", "to": "now" },
   "panels": [
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 10,
-      "title": "Model Usage",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo"
-      },
-      "description": "Rate of LLM calls per model over time",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "fillOpacity": 10,
-            "lineWidth": 2
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 1
-      },
       "id": 1,
-      "options": {
-        "legend": {
-          "calcs": [
-            "sum"
-          ],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo"
-          },
-          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | rate() by(span.gen_ai.request.model)",
-          "queryType": "traceql",
-          "refId": "A"
-        }
-      ],
       "title": "Calls / min by Model",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo"
-      },
-      "description": "Output tokens per model over time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (span_name) (rate(traces_spanmetrics_calls_total{service=\"openclaw-gateway\"}[5m]))",
+          "legendFormat": "{{span_name}}"
+        }
+      ],
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "fillOpacity": 10,
-            "lineWidth": 2
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 1
-      },
+          "unit": "reqps",
+          "custom": { "drawStyle": "line", "fillOpacity": 15, "spanNulls": true }
+        }
+      }
+    },
+    {
       "id": 2,
-      "options": {
-        "legend": {
-          "calcs": [
-            "sum",
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo"
-          },
-          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.usage.output_tokens > 0 } | sum(span.gen_ai.usage.output_tokens) by(span.gen_ai.request.model)",
-          "queryType": "traceql",
-          "refId": "A"
-        }
-      ],
-      "title": "Output Tokens by Model",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo"
-      },
-      "description": "P95 response latency per model",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "lineWidth": 2
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 9
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo"
-          },
-          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | quantile_over_time(duration, 0.95) by(span.gen_ai.request.model)",
-          "queryType": "traceql",
-          "refId": "A"
-        }
-      ],
       "title": "P95 Latency by Model",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo"
-      },
-      "description": "Model usage breakdown",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum by (span_name, le) (rate(traces_spanmetrics_latency_bucket{service=\"openclaw-gateway\"}[5m])))",
+          "legendFormat": "p95 {{span_name}}"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.50, sum by (span_name, le) (rate(traces_spanmetrics_latency_bucket{service=\"openclaw-gateway\"}[5m])))",
+          "legendFormat": "p50 {{span_name}}"
+        }
+      ],
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 9
-      },
+          "unit": "s",
+          "custom": { "drawStyle": "line", "fillOpacity": 10, "spanNulls": true }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Total Calls by Model",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (span_name) (traces_spanmetrics_calls_total{service=\"openclaw-gateway\"})",
+          "legendFormat": "{{span_name}}"
+        }
+      ],
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      }
+    },
+    {
       "id": 4,
-      "options": {
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "values": [
-            "percent",
-            "value"
-          ]
-        },
-        "pieType": "pie",
-        "tooltip": {
-          "mode": "single"
-        }
-      },
+      "title": "Total Output Bytes by Model",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo"
-          },
-          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | count() by(span.gen_ai.request.model)",
-          "queryType": "traceql",
-          "refId": "A"
+          "refId": "A",
+          "expr": "sum by (span_name) (traces_spanmetrics_size_total{service=\"openclaw-gateway\"})",
+          "legendFormat": "{{span_name}}"
         }
       ],
-      "title": "Model Distribution",
-      "type": "piechart"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 17
-      },
-      "id": 11,
-      "title": "Recent Traces",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo"
-      },
-      "description": "Recent LLM calls \u2014 click to open trace",
       "fieldConfig": {
-        "defaults": {},
-        "overrides": []
+        "defaults": {
+          "unit": "bytes"
+        }
       },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 18
-      },
-      "id": 5,
       "options": {
-        "dedupStrategy": "none",
-        "sortOrder": "Descending"
-      },
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Error Rate",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo"
-          },
-          "filters": [
-            {
-              "id": "service-name",
-              "operator": "=",
-              "scope": "resource",
-              "tag": "service.name",
-              "value": "openclaw-gateway"
-            },
-            {
-              "id": "gen-ai-model",
-              "operator": "!=",
-              "scope": "span",
-              "tag": "gen_ai.request.model",
-              "value": ""
-            }
-          ],
-          "limit": 50,
-          "queryType": "nativeSearch",
-          "refId": "A"
+          "refId": "A",
+          "expr": "sum by (span_name, status_code) (rate(traces_spanmetrics_calls_total{service=\"openclaw-gateway\", status_code!=\"STATUS_CODE_UNSET\"}[5m]))",
+          "legendFormat": "{{span_name}} ({{status_code}})"
         }
       ],
-      "title": "Recent Model Calls",
-      "type": "traces"
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "drawStyle": "line", "fillOpacity": 15 }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "Recent Traces",
+      "type": "table",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 16 },
+      "datasource": { "type": "tempo", "uid": "tempo" },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "nativeSearch",
+          "serviceName": "openclaw-gateway",
+          "limit": 20
+        }
+      ]
     }
   ],
-  "refresh": "30s",
-  "schemaVersion": 38,
-  "tags": [
-    "openclaw",
-    "llm",
-    "observability"
-  ],
-  "templating": {
-    "list": []
-  },
-  "time": {
-    "from": "now-24h",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "OpenClaw \u2014 LLM Model Usage",
-  "uid": "openclaw-llm-usage",
-  "version": 2
+  "schemaVersion": 39
 }
