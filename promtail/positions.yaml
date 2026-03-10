@@ -1,0 +1,5 @@
+positions:
+  /Users/rb/observability/logs/blackbox.log: "10227976"
+  /Users/rb/observability/logs/promtail.log: "79092"
+  /Users/rb/observability/logs/snmp.log: "3288"
+  /var/log/system.log: "6413"

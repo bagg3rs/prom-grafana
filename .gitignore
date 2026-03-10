@@ -30,3 +30,6 @@ grafana/docs/
 grafana/npm-artifacts/
 grafana/packaging/
 grafana/tools/
+bin/blackbox_exporter
+bin/promtail
+bin/snmp_exporter
