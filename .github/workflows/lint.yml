@@ -1,0 +1,24 @@
+name: Lint Dashboards
+
+on:
+  push:
+    paths:
+      - "grafana/conf/provisioning/dashboards/**"
+      - "scripts/lint-dashboards.sh"
+  pull_request:
+    paths:
+      - "grafana/conf/provisioning/dashboards/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Lint dashboards
+        run: ./scripts/lint-dashboards.sh
