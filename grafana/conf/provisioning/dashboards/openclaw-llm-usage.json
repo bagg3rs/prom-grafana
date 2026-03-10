@@ -79,7 +79,7 @@
             "type": "tempo",
             "uid": "tempo"
           },
-          "query": "{ service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | rate() by(span.gen_ai.request.model)",
+          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | rate() by(span.gen_ai.request.model)",
           "queryType": "traceql",
           "refId": "A"
         }
@@ -132,7 +132,7 @@
             "type": "tempo",
             "uid": "tempo"
           },
-          "query": "{ service.name = \"openclaw-gateway\" && span.gen_ai.usage.output_tokens > 0 } | sum(span.gen_ai.usage.output_tokens) by(span.gen_ai.request.model)",
+          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.usage.output_tokens > 0 } | sum(span.gen_ai.usage.output_tokens) by(span.gen_ai.request.model)",
           "queryType": "traceql",
           "refId": "A"
         }
@@ -184,7 +184,7 @@
             "type": "tempo",
             "uid": "tempo"
           },
-          "query": "{ service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | quantile_over_time(duration, 0.95) by(span.gen_ai.request.model)",
+          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | quantile_over_time(duration, 0.95) by(span.gen_ai.request.model)",
           "queryType": "traceql",
           "refId": "A"
         }
@@ -240,7 +240,7 @@
             "type": "tempo",
             "uid": "tempo"
           },
-          "query": "{ service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | count() by(span.gen_ai.request.model)",
+          "query": "{ resource.service.name = \"openclaw-gateway\" && span.gen_ai.request.model != \"\" } | count() by(span.gen_ai.request.model)",
           "queryType": "traceql",
           "refId": "A"
         }
